@@ -101,18 +101,9 @@ const Dashboard: React.FC = () => {
     return age;
   };
 
-  const missionsGoal = 6500;
-  const currentMonthMissionsIncome = transactions
-    .filter(t => {
-      if (t.type !== 'income' || t.subCategory !== 'Oferta Missões') return false;
-      const transDate = new Date(t.date);
-      const today = new Date();
-      return transDate.getMonth() === today.getMonth() && transDate.getFullYear() === today.getFullYear();
-    })
-    .reduce((acc, curr) => acc + curr.amount, 0);
-
-  const missionsPercent = Math.min(Math.round((currentMonthMissionsIncome / missionsGoal) * 100), 100);
-  const missionsRemaining = Math.max(missionsGoal - currentMonthMissionsIncome, 0);
+  const monthlyGoal = 6500;
+  const goalPercent = Math.min(Math.round((currentMonthIncome / monthlyGoal) * 100), 100);
+  const goalRemaining = Math.max(monthlyGoal - currentMonthIncome, 0);
 
   return (
     <div className="p-6 md:p-10 scroll-smooth bg-gradient-to-b from-background-dark to-[#050a14]">
@@ -120,7 +111,7 @@ const Dashboard: React.FC = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <StatCard title="Membros Ativos" value={activeMembers.toString()} trend={`${Math.round((activeMembers / (totalMembers || 1)) * 100)}%`} icon="person_add" trendType="up" />
-          <StatCard title="Arrecadação (Mês)" value={formatCurrency(currentMonthIncome)} trend="" icon="attach_money" trendType="up" isProgress progress={Math.min(Math.round((currentMonthIncome / 50000) * 100), 100)} />
+          <StatCard title="Arrecadação (Mês)" value={formatCurrency(currentMonthIncome)} trend="" icon="attach_money" trendType="up" isProgress progress={goalPercent} />
           <div className="bg-surface-dark rounded-2xl p-6 border border-slate-700/60 shadow-lg group">
             <div className="flex justify-between items-start mb-5">
               <div className="bg-slate-800/80 p-3 rounded-xl text-primary border border-slate-700/50 group-hover:bg-primary/10 transition-colors">
@@ -213,19 +204,19 @@ const Dashboard: React.FC = () => {
               <div className="absolute -right-8 -bottom-8 opacity-20 transform rotate-12 group-hover:scale-110 transition-transform duration-700">
                 <span className="material-symbols-outlined text-[160px]">church</span>
               </div>
-              <h4 className="font-bold text-xl mb-1 relative z-10">Missões {new Date().toLocaleDateString('pt-BR', { month: 'short' })}</h4>
+              <h4 className="font-bold text-xl mb-1 relative z-10">Meta Mensal {new Date().toLocaleDateString('pt-BR', { month: 'short' })}</h4>
               <p className="text-sm font-medium text-white/90 mb-6 max-w-[85%] relative leading-relaxed">
-                {missionsRemaining > 0
-                  ? <>Faltam apenas <span className="font-bold">{formatCurrency(missionsRemaining)}</span> para a meta.</>
+                {goalRemaining > 0
+                  ? <>Faltam apenas <span className="font-bold">{formatCurrency(goalRemaining)}</span> para a meta.</>
                   : <span className="font-bold text-emerald-300 flex items-center gap-1"><span className="material-symbols-outlined">stars</span> META ALCANÇADA!</span>
                 }
               </p>
               <div className="w-full bg-black/20 rounded-full h-2.5 mb-2 relative backdrop-blur-sm">
-                <div className="bg-white h-2.5 rounded-full shadow-sm transition-all duration-1000" style={{ width: `${missionsPercent}%` }}></div>
+                <div className="bg-white h-2.5 rounded-full shadow-sm transition-all duration-1000" style={{ width: `${goalPercent}%` }}></div>
               </div>
               <div className="flex justify-between text-xs font-bold relative tracking-wide">
-                <span>{missionsPercent}% Arrecadado</span>
-                <span>{formatCurrency(missionsGoal)}</span>
+                <span>{goalPercent}% Arrecadado</span>
+                <span>{formatCurrency(monthlyGoal)}</span>
               </div>
             </div>
 
