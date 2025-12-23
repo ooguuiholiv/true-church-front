@@ -434,7 +434,7 @@ const MemberRow: React.FC<{ member: Member; onEdit: () => void }> = ({ member, o
         </div>
       </td>
       <td className="py-5 px-6 text-right">
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button onClick={onEdit} className="text-primary hover:bg-primary/10 transition-colors p-2 rounded-lg">
             <span className="material-symbols-outlined text-[20px]">edit</span>
           </button>

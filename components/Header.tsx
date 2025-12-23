@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api, getFullUrl } from '../api';
 
-const Header: React.FC<{ user: any; onLogout: () => void }> = ({ user, onLogout }) => {
+const Header: React.FC<{ user: any; onLogout: () => void; onMenuToggle?: () => void }> = ({ user, onLogout, onMenuToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,7 +70,12 @@ const Header: React.FC<{ user: any; onLogout: () => void }> = ({ user, onLogout 
   return (
     <header className="h-20 w-full flex items-center justify-between px-6 md:px-10 border-b border-slate-800/60 bg-surface-darker/80 backdrop-blur-xl sticky top-0 z-30 shadow-sm">
       <div className="flex items-center gap-4 text-white md:hidden">
-        <span className="material-symbols-outlined cursor-pointer text-slate-300 hover:text-primary transition-colors">menu</span>
+        <span
+          onClick={onMenuToggle}
+          className="material-symbols-outlined cursor-pointer text-slate-300 hover:text-primary transition-colors"
+        >
+          menu
+        </span>
       </div>
 
       <div className="hidden md:flex flex-col justify-center">
@@ -138,7 +143,7 @@ const Header: React.FC<{ user: any; onLogout: () => void }> = ({ user, onLogout 
 
             {/* Notifications Dropdown */}
             {showNotifications && (
-              <div className="absolute top-full right-0 mt-2 w-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+              <div className="absolute top-full right-[-80px] md:right-0 mt-2 w-[calc(100vw-2rem)] max-w-[320px] md:w-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
                 <div className="p-4 border-b border-slate-800 bg-slate-800/20 flex justify-between items-center">
                   <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest">Notificações Inteligentes</h4>
                   <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] rounded-full font-bold">{notifications.length}</span>

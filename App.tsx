@@ -18,6 +18,7 @@ import { NotificationContainer } from './components/Notification';
 const App: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -51,9 +52,17 @@ const App: React.FC = () => {
         <Route path="*" element={
           user ? (
             <div className="flex h-screen w-full overflow-hidden bg-surface-darker">
-              <Sidebar onLogout={handleLogout} />
+              <Sidebar
+                onLogout={handleLogout}
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+              />
               <main className="flex-1 flex flex-col h-full relative overflow-hidden bg-background-dark">
-                <Header user={user} onLogout={handleLogout} />
+                <Header
+                  user={user}
+                  onLogout={handleLogout}
+                  onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+                />
                 <div className="flex-1 overflow-y-auto scroll-smooth">
                   <Routes>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />

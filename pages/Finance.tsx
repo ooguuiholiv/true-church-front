@@ -424,7 +424,7 @@ const TransactionRow: React.FC<{
         {(type === 'income' ? '+ ' : '- ') + formatCurrency(amount)}
       </td>
       <td className="px-6 py-5">
-        <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex justify-center gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button
             onClick={onEdit}
             className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-primary hover:bg-primary/10 transition-colors"
