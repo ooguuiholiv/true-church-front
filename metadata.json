@@ -1,0 +1,7 @@
+{
+  "name": "True Church ERP",
+  "description": "A comprehensive church management system with modules for finance, member CRM, event planning, ministry scheduling, and kids check-in security.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
