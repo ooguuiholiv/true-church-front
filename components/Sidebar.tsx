@@ -35,10 +35,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout, isOpen, onClose }) => {
 
       <aside className={`
         fixed inset-y-0 left-0 z-50 w-72 bg-surface-darker border-r border-slate-800/60 shadow-2xl transition-transform duration-300 ease-in-out
-        md:relative md:translate-x-0 md:flex md:flex-col flex-shrink-0
+        flex flex-col h-full
+        md:relative md:translate-x-0 flex-shrink-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="px-10 py-10 flex items-center justify-center border-b border-slate-800/60">
+        <div className="px-10 py-10 flex items-center justify-center border-b border-slate-800/60 relative flex-shrink-0">
           <img
             src="https://media.discordapp.net/attachments/1194391051851534478/1452759170976841983/LOGO_TRUE_BRANCO.png?ex=694afae9&is=6949a969&hm=05b669a4d1375de873cbbfb6fd193bc32973c2994a8b7a215b454ba2b10bc98c&=&format=webp&quality=lossless&width=1768&height=648"
             alt="True Church Logo"
@@ -53,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout, isOpen, onClose }) => {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-1.5 scrollbar-hide">
+        <nav className="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-1.5 custom-scrollbar">
           {sections.map(section => (
             <React.Fragment key={section}>
               <div className="px-4 pb-2 pt-4">
@@ -83,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout, isOpen, onClose }) => {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-slate-800/60 bg-surface-darker/50">
+        <div className="p-4 border-t border-slate-800/60 bg-surface-darker/50 flex-shrink-0">
           <button
             onClick={() => {
               onClose?.();
