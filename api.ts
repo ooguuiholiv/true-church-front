@@ -7,17 +7,29 @@ export const getFullUrl = (url: string) => {
     return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
+const getHeaders = (isFormData: boolean = false) => {
+    const token = localStorage.getItem('token');
+    const headers: any = {};
+    if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
+    }
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 export const api = {
     members: {
         getAll: async () => {
-            const resp = await fetch(`${API_URL}/members`);
+            const resp = await fetch(`${API_URL}/members`, { headers: getHeaders() });
             return resp.json();
         },
         create: async (data: any) => {
             const isFormData = data instanceof FormData;
             const resp = await fetch(`${API_URL}/members`, {
                 method: 'POST',
-                headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+                headers: getHeaders(isFormData),
                 body: isFormData ? data : JSON.stringify(data),
             });
             return resp.json();
@@ -26,24 +38,27 @@ export const api = {
             const isFormData = data instanceof FormData;
             const resp = await fetch(`${API_URL}/members/${id}`, {
                 method: 'PUT',
-                headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+                headers: getHeaders(isFormData),
                 body: isFormData ? data : JSON.stringify(data),
             });
             return resp.json();
         },
         delete: async (id: string) => {
-            await fetch(`${API_URL}/members/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/members/${id}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
         }
     },
     transactions: {
         getAll: async () => {
-            const resp = await fetch(`${API_URL}/transactions`);
+            const resp = await fetch(`${API_URL}/transactions`, { headers: getHeaders() });
             return resp.json();
         },
         create: async (data: any) => {
             const resp = await fetch(`${API_URL}/transactions`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -51,24 +66,27 @@ export const api = {
         update: async (id: string, data: any) => {
             const resp = await fetch(`${API_URL}/transactions/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
         },
         delete: async (id: string) => {
-            await fetch(`${API_URL}/transactions/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/transactions/${id}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
         }
     },
     events: {
         getAll: async () => {
-            const resp = await fetch(`${API_URL}/events`);
+            const resp = await fetch(`${API_URL}/events`, { headers: getHeaders() });
             return resp.json();
         },
         create: async (data: any) => {
             const resp = await fetch(`${API_URL}/events`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -76,26 +94,29 @@ export const api = {
         update: async (id: string, data: any) => {
             const resp = await fetch(`${API_URL}/events/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
         },
         delete: async (id: string) => {
-            const resp = await fetch(`${API_URL}/events/${id}`, { method: 'DELETE' });
+            const resp = await fetch(`${API_URL}/events/${id}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
             if (!resp.ok) {
                 const error = await resp.json();
                 throw new Error(error.message || 'Error deleting event');
             }
         },
         getRegistrations: async (id: string) => {
-            const resp = await fetch(`${API_URL}/events/${id}/registrations`);
+            const resp = await fetch(`${API_URL}/events/${id}/registrations`, { headers: getHeaders() });
             return resp.json();
         },
         registerParticipant: async (id: string, data: any) => {
             const resp = await fetch(`${API_URL}/events/${id}/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -103,7 +124,7 @@ export const api = {
         updateRegistration: async (regId: string, data: any) => {
             const resp = await fetch(`${API_URL}/events/registrations/${regId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -111,13 +132,13 @@ export const api = {
     },
     kids: {
         getBase: async () => {
-            const resp = await fetch(`${API_URL}/kids/base`);
+            const resp = await fetch(`${API_URL}/kids/base`, { headers: getHeaders() });
             return resp.json();
         },
         register: async (data: any) => {
             const resp = await fetch(`${API_URL}/kids/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -125,36 +146,39 @@ export const api = {
         update: async (id: string, data: any) => {
             const resp = await fetch(`${API_URL}/kids/update/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
         },
         getPresent: async () => {
-            const resp = await fetch(`${API_URL}/kids/present`);
+            const resp = await fetch(`${API_URL}/kids/present`, { headers: getHeaders() });
             return resp.json();
         },
         checkin: async (kidId: string, room: string) => {
             const resp = await fetch(`${API_URL}/kids/checkin`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify({ kidId, room }),
             });
             return resp.json();
         },
         checkout: async (id: string) => {
-            await fetch(`${API_URL}/kids/checkout/${id}`, { method: 'POST' });
+            await fetch(`${API_URL}/kids/checkout/${id}`, {
+                method: 'POST',
+                headers: getHeaders()
+            });
         }
     },
     ministries: {
         getAll: async () => {
-            const resp = await fetch(`${API_URL}/ministries`);
+            const resp = await fetch(`${API_URL}/ministries`, { headers: getHeaders() });
             return resp.json();
         },
         create: async (data: any) => {
             const resp = await fetch(`${API_URL}/ministries`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -162,13 +186,13 @@ export const api = {
     },
     schedules: {
         getAll: async () => {
-            const resp = await fetch(`${API_URL}/schedules`);
+            const resp = await fetch(`${API_URL}/schedules`, { headers: getHeaders() });
             return resp.json();
         },
         create: async (data: any) => {
             const resp = await fetch(`${API_URL}/schedules`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -176,7 +200,7 @@ export const api = {
         update: async (id: string, data: any) => {
             const resp = await fetch(`${API_URL}/schedules/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
             });
             return resp.json();
@@ -184,25 +208,29 @@ export const api = {
     },
     secretary: {
         getDocuments: async () => {
-            const resp = await fetch(`${API_URL}/secretary/documents`);
+            const resp = await fetch(`${API_URL}/secretary/documents`, { headers: getHeaders() });
             return resp.json();
         },
         createDocument: async (formData: FormData) => {
             const resp = await fetch(`${API_URL}/secretary/documents`, {
                 method: 'POST',
-                body: formData, // No Content-Type header needed for FormData
+                headers: getHeaders(true),
+                body: formData,
             });
             return resp.json();
         },
         deleteDocument: async (id: string) => {
-            await fetch(`${API_URL}/secretary/documents/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/secretary/documents/${id}`, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
         },
         search: async (query: string) => {
-            const resp = await fetch(`${API_URL}/secretary/search?q=${encodeURIComponent(query)}`);
+            const resp = await fetch(`${API_URL}/secretary/search?q=${encodeURIComponent(query)}`, { headers: getHeaders() });
             return resp.json();
         },
         getNotifications: async () => {
-            const resp = await fetch(`${API_URL}/secretary/notifications`);
+            const resp = await fetch(`${API_URL}/secretary/notifications`, { headers: getHeaders() });
             return resp.json();
         }
     },
