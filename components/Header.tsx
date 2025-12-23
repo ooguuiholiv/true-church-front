@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { api } from '../api';
+import { api, getFullUrl } from '../api';
 
 const Header: React.FC<{ user: any; onLogout: () => void }> = ({ user, onLogout }) => {
   const location = useLocation();
@@ -179,7 +179,7 @@ const Header: React.FC<{ user: any; onLogout: () => void }> = ({ user, onLogout 
           <div className="relative">
             <div
               className="bg-center bg-no-repeat bg-cover rounded-full size-11 border-2 border-slate-700 group-hover:border-primary transition-colors shadow-lg"
-              style={{ backgroundImage: `url('${user?.photo || `https://i.pravatar.cc/100?u=${user?.id}`}')` }}
+              style={{ backgroundImage: `url('${getFullUrl(user?.photo) || `https://i.pravatar.cc/100?u=${user?.id}`}')` }}
             ></div>
             <div className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full border-2 border-surface-darker"></div>
           </div>

@@ -1,5 +1,11 @@
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+export const BASE_URL = API_URL.replace('/api', '');
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+export const getFullUrl = (url: string) => {
+    if (!url) return url;
+    if (url.startsWith('http')) return url;
+    return `${BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+};
 
 export const api = {
     members: {

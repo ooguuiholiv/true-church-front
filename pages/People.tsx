@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { api } from '../api';
+import { api, getFullUrl } from '../api';
 import { Member } from '../types';
 import { showNotification } from '../components/Notification';
 
@@ -230,7 +230,7 @@ const People: React.FC = () => {
                   <div className="relative group">
                     <div
                       className="size-24 rounded-2xl bg-cover bg-center border-2 border-slate-700 overflow-hidden"
-                      style={{ backgroundImage: `url('${formData.photoUrl || (formData.gender === 'F' ? 'https://i.pravatar.cc/150?img=5' : 'https://i.pravatar.cc/150?img=11')}')` }}
+                      style={{ backgroundImage: `url('${getFullUrl(formData.photoUrl) || (formData.gender === 'F' ? 'https://i.pravatar.cc/150?img=5' : 'https://i.pravatar.cc/150?img=11')}')` }}
                     >
                       {formData.photoFile && (
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -398,7 +398,7 @@ const MemberRow: React.FC<{ member: Member; onEdit: () => void }> = ({ member, o
     <tr className="group hover:bg-slate-700/20 transition-colors border-b border-slate-800/50 last:border-0">
       <td className="py-5 px-6">
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-2xl bg-cover bg-center border border-slate-700 group-hover:border-primary transition-all duration-500" style={{ backgroundImage: `url('${member.photo}')` }}></div>
+          <div className="size-12 rounded-2xl bg-cover bg-center border border-slate-700 group-hover:border-primary transition-all duration-500" style={{ backgroundImage: `url('${getFullUrl(member.photo)}')` }}></div>
           <div className="flex flex-col">
             <span className="text-sm font-bold text-slate-100 group-hover:text-primary transition-colors">{member.name}</span>
             <span className="text-[10px] text-slate-500 font-medium flex items-center gap-2">

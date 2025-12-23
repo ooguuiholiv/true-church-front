@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { api } from '../api';
+import { api, getFullUrl } from '../api';
 import { Member, Transaction, ChurchEvent, Ministry } from '../types';
 import { GoogleGenAI } from '@google/genai';
 
@@ -312,7 +312,7 @@ const BirthdayRow: React.FC<{ name: string; role: string; age: string; photo: st
     <tr className="hover:bg-slate-800/40 transition-colors group">
       <td className="px-8 py-5">
         <div className="flex items-center gap-4">
-          <div className="bg-center bg-no-repeat bg-cover rounded-full size-12 border-2 border-slate-600 group-hover:border-primary transition-colors" style={{ backgroundImage: `url('${photo}')` }}></div>
+          <div className="bg-center bg-no-repeat bg-cover rounded-full size-12 border-2 border-slate-600 group-hover:border-primary transition-colors" style={{ backgroundImage: `url('${getFullUrl(photo)}')` }}></div>
           <div>
             <p className="text-white font-bold text-sm group-hover:text-primary transition-colors">{name}</p>
             <p className="text-slate-500 text-xs mt-0.5">Membro Ativo</p>

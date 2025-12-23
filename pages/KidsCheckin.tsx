@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../api';
+import { api, getFullUrl } from '../api';
 import { QRCodeCanvas } from 'qrcode.react';
 import { showNotification } from '../components/Notification';
 
@@ -285,7 +285,7 @@ const KidCard: React.FC<{ kid: Kid; onAction: () => void; onEdit?: () => void; a
     <div className="bg-surface-dark rounded-2xl p-6 border border-slate-700/60 shadow-lg hover:border-primary/40 transition-all group animate-in fade-in zoom-in duration-300 relative overflow-hidden">
       <div className="flex gap-4">
         <div className="relative shrink-0">
-          <div className="size-16 rounded-2xl bg-cover bg-center border-2 border-slate-700 group-hover:border-primary transition-all duration-500" style={{ backgroundImage: `url('${kid.photo}')` }}></div>
+          <div className="size-16 rounded-2xl bg-cover bg-center border-2 border-slate-700 group-hover:border-primary transition-all duration-500" style={{ backgroundImage: `url('${getFullUrl(kid.photo)}')` }}></div>
           {kid.status === 'present' && (
             <div className="absolute -bottom-1 -right-1 size-4 bg-emerald-500 border-2 border-surface-dark rounded-full"></div>
           )}

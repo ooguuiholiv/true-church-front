@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { api } from '../api';
+import { api, BASE_URL } from '../api';
 import { showNotification } from '../components/Notification';
 import { Member } from '../types';
 
@@ -180,7 +180,7 @@ const Secretary: React.FC = () => {
                       <td className="py-4 px-6 text-right">
                         <div className="flex justify-end gap-2">
                           <a
-                            href={`http://localhost:3001/uploads/documents/${doc.filename}`}
+                            href={`${BASE_URL}/uploads/documents/${doc.filename}`}
                             target="_blank"
                             rel="noreferrer"
                             className="p-2 text-slate-500 hover:text-primary transition-colors hover:bg-slate-800 rounded-lg"
